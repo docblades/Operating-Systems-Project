@@ -6,9 +6,28 @@ import java.util.List;
 public class BinaryUtils {
 	private static final String hexPrefix = "0x";
 	
-	public static byte[] HexToByteArray(String hex)
+	public static Byte[] HexToByteArray(String hex)
 	{
-		return new byte[2];
+		String cleanInput = StripHexHeader(hex);
+		List<String> hexNibbles = MakeListOfHexNibbles(cleanInput);
+		
+		return MakeByteArrayFromListOfHexNibbles(hexNibbles);	
+	}
+
+	private static Byte[] MakeByteArrayFromListOfHexNibbles(
+			List<String> hexNibbles) {
+		List<Byte> listOfBytes = new ArrayList<Byte>();
+		
+		for (String nibble : hexNibbles)
+		{
+			byte result = BinaryUtils.GetByteFromHexNibble(nibble);
+			listOfBytes.add(result);
+		}
+		
+		int arrayLength = listOfBytes.size();
+		Byte[] byteArray = new Byte[arrayLength];
+		listOfBytes.toArray(byteArray);
+		return byteArray;
 	}
 	
 	private static List<String> MakeListOfHexNibbles(String hexIn)
@@ -31,11 +50,10 @@ public class BinaryUtils {
 		return hexIn;		
 	}
 	
-	private static byte[] GetBytesFromHexNibble(String hexIn)
+	private static byte GetByteFromHexNibble(String hexIn)
 	{
-		byte byte1 = Byte.parseByte(hexIn.substring(0, 1), 16);
-		byte byte2 = Byte.parseByte(hexIn.substring(1, 2), 16);
-		
-		return new byte[] {byte1, byte2};
+		Integer hexAsInt = Integer.parseInt(hexIn, 16);
+		return hexAsInt.byteValue();
 	}
+	
 }

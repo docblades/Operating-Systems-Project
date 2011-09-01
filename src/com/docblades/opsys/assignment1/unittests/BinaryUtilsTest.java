@@ -1,6 +1,5 @@
 package com.docblades.opsys.assignment1.unittests;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import junit.extensions.PA;
 import junit.framework.Assert;
@@ -18,13 +17,7 @@ public class BinaryUtilsTest {
 		
 		try {
 			result = (List<String>)PA.invokeMethod(BinaryUtils.class, "MakeListOfHexNibbles(java.lang.String)", hexString);
-		} catch (IllegalArgumentException e) {
-			PrintAndFail(e);
-		} catch (IllegalAccessException e) {
-			PrintAndFail(e);
-		} catch (InvocationTargetException e) {
-			PrintAndFail(e);
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			PrintAndFail(e);
 		}
 		
@@ -54,13 +47,7 @@ public class BinaryUtilsTest {
 		
 		try {
 			result = (String)PA.invokeMethod(BinaryUtils.class, "StripHexHeader(java.lang.String)", testString);
-		} catch (IllegalArgumentException e) {
-			PrintAndFail(e);
-		} catch (IllegalAccessException e) {
-			PrintAndFail(e);
-		} catch (InvocationTargetException e) {
-			PrintAndFail(e);
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) { 
 			PrintAndFail(e);
 		}
 		
@@ -78,13 +65,7 @@ public class BinaryUtilsTest {
 		
 		try {
 			result = (String)PA.invokeMethod(BinaryUtils.class, "StripHexHeader(java.lang.String)", testString);
-		} catch (IllegalArgumentException e) {
-			PrintAndFail(e);
-		} catch (IllegalAccessException e) {
-			PrintAndFail(e);
-		} catch (InvocationTargetException e) {
-			PrintAndFail(e);
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			PrintAndFail(e);
 		}
 		
@@ -97,27 +78,28 @@ public class BinaryUtilsTest {
 		Assert.fail(e.getMessage());
 	}
 	
-	//@Test
+	@Test
 	public void testGetByteFromHexNibble()
 	{
 		final String testHex = "ff";
-		final byte[] expected = new byte[] {0xf, 0xf};
-		byte[] actual = new byte[2];
+		final byte expected = (byte)255;
+		byte actual = (byte)0;
 		
 		try {
-			actual = (byte[])PA.invokeMethod(BinaryUtils.class, "GetBytesFromHexNibble(java.lang.String)", testHex);
-		} catch (IllegalArgumentException e) {
-			PrintAndFail(e);
-		} catch (IllegalAccessException e) {
-			PrintAndFail(e);
-		} catch (InvocationTargetException e) {
-			PrintAndFail(e);
-		} catch (NoSuchMethodException e) {
+			actual = (Byte)PA.invokeMethod(BinaryUtils.class, "GetByteFromHexNibble(java.lang.String)", testHex);
+		} catch(Exception e) {
 			PrintAndFail(e);
 		}
 		
-		Assert.assertEquals(expected, actual);
+		Assert.assertEquals(expected, actual);		
+	}
+	
+	@Test
+	public void testMakeByteArrayFromListOfHexNibbles()
+	{
 		
 	}
+	
+	
 
 }
