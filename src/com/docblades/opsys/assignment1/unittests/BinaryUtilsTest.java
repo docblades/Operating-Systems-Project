@@ -1,16 +1,34 @@
 package com.docblades.opsys.assignment1.unittests;
 
+import java.util.ArrayList;
 import java.util.List;
 import junit.extensions.PA;
 import junit.framework.Assert;
 import org.junit.Test;
 import com.docblades.opsys.assignment1.BinaryUtils;
 
-
 public class BinaryUtilsTest {
+	private void PrintAndFail(Exception e)
+	{
+		e.printStackTrace();
+		Assert.fail(e.getMessage());
+	}
+	
+	private void printListToConsole(List<String> nibbles)
+	{
+		StringBuilder result = new StringBuilder();
+		
+		result.append("[");
+		for (String x : nibbles)
+			result.append(String.format("%s, ", x));
+		result.append("]");
+		
+		System.out.printf("%s", result.toString());
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void TestMakeListOfHexNibbles()
+	public void testMakeListOfHexNibbles()
 	{
 		final String hexString = "C050005C";
 		List<String> result = null;
@@ -25,18 +43,6 @@ public class BinaryUtilsTest {
 		Assert.assertEquals(4, result.size());
 		Assert.assertEquals(2, result.get(0).length());
 		printListToConsole(result);		
-	}
-	
-	private void printListToConsole(List<String> nibbles)
-	{
-		StringBuilder result = new StringBuilder();
-		
-		result.append("[");
-		for (String x : nibbles)
-			result.append(String.format("%s, ", x));
-		result.append("]");
-		
-		System.out.printf("%s", result.toString());
 	}
 	
 	@Test
@@ -72,12 +78,6 @@ public class BinaryUtilsTest {
 		Assert.assertEquals(testString, result);
 	}
 	
-	private void PrintAndFail(Exception e)
-	{
-		e.printStackTrace();
-		Assert.fail(e.getMessage());
-	}
-	
 	@Test
 	public void testGetByteFromHexNibble()
 	{
@@ -97,9 +97,28 @@ public class BinaryUtilsTest {
 	@Test
 	public void testMakeByteArrayFromListOfHexNibbles()
 	{
+		BinaryUtils binUtil = new BinaryUtils();
 		
+		List<String> hexNibbles = new ArrayList<String>();
+		hexNibbles.add("01"); // 1
+		hexNibbles.add("10"); // 16
+		hexNibbles.add("00"); // 0
+		hexNibbles.add("ff"); // 255
+		
+		Byte[] expected = { 1, 16, 0, (byte) 255 };
+		
+		Byte[] actual = null;
+		try {
+			actual = (Byte[]) PA.invokeMethod(binUtil, 
+					"MakeByteArrayFromListOfHexNibbles(java.util.List)",
+					hexNibbles);
+		} catch (Exception e) {
+			PrintAndFail(e);
+		}
+		
+		for (int i = 0; i < actual.length; i++)
+		{
+			Assert.assertEquals(expected[i], actual[i]);
+		}		
 	}
-	
-	
-
 }
