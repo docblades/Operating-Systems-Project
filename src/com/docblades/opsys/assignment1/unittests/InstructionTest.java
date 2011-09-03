@@ -12,33 +12,6 @@ import com.docblades.opsys.assignment1.Instructions.InstructionType;
 public class InstructionTest extends TestCase {
 	
 	@Test
-	public void testGetType()
-	{
-		//TODO real test
-		
-		
-	}
-	
-	@Test
-	public void testGetTypeStress()
-	{
-		byte[] binary = new byte[4];
-		Instruction inst = new fakeInstruction();
-		
-		for (int i = 0; i < 256; i++) 
-		{
-			binary[0] = (byte) i;
-
-			try {
-				PA.setValue(inst, "_binary", binary);
-				InstructionType foo = (InstructionType) PA.invokeMethod(inst, "getType()");
-			} catch (Exception e) {
-				PrintAndFail(e);
-			}
-		}
-	}
-	
-	@Test
 	public void testMyTheory()
 	{
 		byte one = (byte) 0xf0; // 11110000
@@ -63,6 +36,11 @@ public class InstructionTest extends TestCase {
 	
 	private class fakeInstruction extends Instruction
 	{
+
+		public fakeInstruction(int thirtyTwoBitInstruction) {
+			super(thirtyTwoBitInstruction);
+			// TODO Auto-generated constructor stub
+		}
 
 		@Override
 		public void WorkInstruction() {
