@@ -1,8 +1,12 @@
 package com.docblades.opsys.assignment1.ProcessControl;
 
-public class ProcessControlBlock {
+import java.util.UUID;
+
+public class ProcessControlBlock implements Comparable<ProcessControlBlock> {
+	public UUID processId;
+	
 	public Integer cpuID;
-	ProcessStatus status;
+	public ProcessStatus status;
 	
 	// memory
 	public Integer page;	
@@ -10,8 +14,10 @@ public class ProcessControlBlock {
 	public Integer dataOffset;
 	
 	// registers
-	public Integer programCounter;
-	
-	
+	public Registers registers;
 
+	@Override
+	public int compareTo(ProcessControlBlock arg0) {
+		return processId.compareTo(arg0.processId);		
+	}
 }
